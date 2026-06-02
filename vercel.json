@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
     "version": 2,
     "builds": [
@@ -12,4 +13,20 @@
             "dest": "/FastApi/App.py"
         }
     ]
+=======
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "./FastApi/App.py",
+            "use": "@vercel/python"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "/FastApi/App.py"
+        }
+    ]
+>>>>>>> dc608095c8ee659f0bc207ef153f4ce0f8b70ad6
 }
