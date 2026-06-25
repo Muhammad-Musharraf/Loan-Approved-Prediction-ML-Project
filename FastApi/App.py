@@ -41,12 +41,20 @@ class UserData(BaseModel):
 
 
 # ── Routes ────────────────────────────────────────────────────────────────────
+# Human readable root endpoint
 @app.get("/")
 def root():
-    return {"message": "LoanSense AI API is running."}
+    return {"message": "Loan Approval Prediction API"}
 
+# Machine readable health check endpoint
+@app.get("/health")
+def health():
+    return {
+        "status": "OK",
+        "timestamp": datetime.now().isoformat(),
+        "Model Loaded": model is not None
 
-
+    }
 
 
 @app.post("/predict")
