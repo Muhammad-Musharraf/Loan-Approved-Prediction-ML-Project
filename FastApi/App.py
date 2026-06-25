@@ -3,6 +3,10 @@ from pydantic import BaseModel, Field
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from typing import Literal, Annotated
+<<<<<<< HEAD
+=======
+from datetime import datetime
+>>>>>>> b89091f7d10c4afb971a84a4767f33eec5306f10
 import pandas as pd
 import pickle
 import os
@@ -84,3 +88,9 @@ def predict(user: UserData):
         return JSONResponse(status_code=500, content={"error": str(e)})
 
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> b89091f7d10c4afb971a84a4767f33eec5306f10
