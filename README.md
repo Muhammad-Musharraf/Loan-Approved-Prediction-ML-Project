@@ -1,180 +1,239 @@
-# 🏦 Loan Approval Prediction ML Project
+# 🏦 Loan Approval Prediction — ML Project
 
-A Machine Learning project that predicts whether a loan application will be approved or not based on applicant information such as income, education, employment status, credit history, and loan details.
+[![Live App](https://img.shields.io/badge/🚀%20Live%20App-Streamlit-FF4B4B?style=for-the-badge&logo=streamlit)](https://loan-approved-prediction-ml-project.streamlit.app/)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![scikit-learn](https://img.shields.io/badge/scikit--learn-1.6.1-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-1.x-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://streamlit.io/)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
----
-
-## 📌 Project Overview
-
-Financial institutions receive thousands of loan applications daily. Manually evaluating each application can be time-consuming and prone to inconsistencies.
-
-This project uses Machine Learning techniques to automate the loan approval prediction process by analyzing historical applicant data and predicting the likelihood of loan approval.
+> A machine learning web application that predicts whether a loan application will be **approved or rejected** based on applicant information — helping financial institutions make faster, data-driven decisions.
 
 ---
 
-## 🎯 Objectives
+## 🌐 Live Demo
 
-- Perform data preprocessing and feature engineering.
-- Analyze applicant data through Exploratory Data Analysis (EDA).
-- Train and evaluate multiple Machine Learning models.
-- Select the best-performing model.
-- Predict loan approval status for new applicants.
+👉 **[Try the App Here](https://loan-approved-prediction-ml-project.streamlit.app/)**
 
 ---
 
-## 📂 Dataset Features
+## 📌 Table of Contents
 
-The dataset contains information such as:
-
-- Applicant Income
-- Co-Applicant Income
-- Loan Amount
-- Loan Term
-- Credit History
-- Education
-- Marital Status
-- Gender
-- Employment Status
-- Property Area
-
-**Target Variable:**
-- Loan Status (Approved / Rejected)
+- [Overview](#-overview)
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Project Structure](#-project-structure)
+- [Dataset](#-dataset)
+- [ML Pipeline](#-ml-pipeline)
+- [Getting Started](#-getting-started)
+- [Usage](#-usage)
+- [Results](#-results)
+- [Troubleshooting](#-troubleshooting)
+- [Contributing](#-contributing)
+- [License](#-license)
 
 ---
 
-## 🛠 Technologies Used
+## 🔍 Overview
 
-- Python
-- Pandas
-- NumPy
-- Matplotlib
-- Seaborn
-- Scikit-Learn
-- Jupyter Notebook
+This end-to-end machine learning project automates loan approval decisions. Given an applicant's demographic and financial details, the model predicts the likelihood of their loan being approved. The trained pipeline is served through an interactive **Streamlit** web app, making it accessible without any coding knowledge.
 
 ---
 
-## 📊 Machine Learning Workflow
+## ✨ Features
 
-### 1. Data Collection
-- Load loan approval dataset.
-
-### 2. Data Preprocessing
-- Handle missing values
-- Encode categorical features
-- Feature scaling (if required)
-
-### 3. Exploratory Data Analysis (EDA)
-- Distribution analysis
-- Correlation analysis
-- Feature importance exploration
-
-### 4. Model Training
-Models evaluated include:
-
-- Logistic Regression
-- Decision Tree
-- Random Forest
-- Support Vector Machine (SVM)
-- K-Nearest Neighbors (KNN)
-
-### 5. Model Evaluation
-Performance measured using:
-
-- Accuracy Score
-- Confusion Matrix
-- Precision
-- Recall
-- F1 Score
+- 📊 **Exploratory Data Analysis (EDA)** — Visual insights into loan data distributions and correlations
+- 🔧 **Automated Preprocessing** — Handles missing values, categorical encoding, and feature scaling in a unified `sklearn` pipeline
+- 🤖 **Classification Model** — Trained on real-world loan applicant data
+- 🌐 **Interactive Web App** — Real-time predictions via a clean Streamlit UI
+- 📦 **Reproducible Pipeline** — Serialized model for consistent, portable inference
 
 ---
 
-## 📈 Results
+## 🛠 Tech Stack
 
-| Model | Accuracy |
-|---------|---------|
-| Logistic Regression | XX% |
-| Decision Tree | XX% |
-| Random Forest | XX% |
-| SVM | XX% |
-
-**Best Model:** Replace with your best-performing model.
+| Category | Tools |
+|---|---|
+| Language | Python 3.10+ |
+| Data Processing | Pandas, NumPy |
+| Visualization | Matplotlib, Seaborn |
+| Machine Learning | scikit-learn |
+| Web App | Streamlit |
+| Model Persistence | Pickle |
+| Dataset Source | Kaggle |
 
 ---
 
-## 🚀 Project Structure
+## 📁 Project Structure
 
-```bash
+```
 Loan-Approved-Prediction-ML-Project/
 │
-├── Dataset/
-├── Notebooks/
-├── Models/
-├── Images/
-├── Loan_Approval_Prediction.ipynb
-├── requirements.txt
+├── Streamlit/
+│   └── loan.py                  # Streamlit app — UI and prediction logic
+│
+├── notebooks/
+│   └── loan_prediction.ipynb    # EDA, preprocessing, model training & evaluation
+│
+├── model/
+│   └── model.pkl                # Trained scikit-learn pipeline (serialized)
+│
+├── data/
+│   └── loan_approval_dataset.csv  # Dataset used for training
+│
+├── requirements.txt             # Python dependencies
+├── pyproject.toml               # Project metadata
 └── README.md
 ```
 
 ---
 
-## ▶️ Installation
+## 📂 Dataset
 
-### Clone Repository
+- **Source:** [Kaggle — Loan Approval Prediction Dataset](https://www.kaggle.com/datasets/muhammadmusharraf444/loan-approval-dataset)
+- **Type:** Tabular, Binary Classification
+- **Domain:** Lending / Finance
+
+### Key Features
+
+| Feature | Description |
+|---|---|
+| `person_age` | Age of the applicant |
+| `person_income` | Annual income |
+| `person_emp_length` | Employment length (years) |
+| `loan_amnt` | Loan amount requested |
+| `loan_int_rate` | Loan interest rate |
+| `loan_percent_income` | Loan amount as % of income |
+| `cb_person_cred_hist_length` | Credit history length (years) |
+| `person_home_ownership` | Home ownership status |
+| `loan_intent` | Purpose of the loan |
+| `loan_grade` | Loan grade assigned |
+| `cb_person_default_on_file` | Historical default on file |
+| `loan_status` | **Target** — 0 = Rejected, 1 = Approved |
+
+---
+
+## ⚙️ ML Pipeline
+
+The model is wrapped in a scikit-learn `Pipeline` with the following stages:
+
+```
+Raw Input
+    │
+    ▼
+ColumnTransformer
+    ├── OneHotEncoder   (nominal categorical features)
+    ├── OrdinalEncoder  (ordinal categorical features)
+    └── StandardScaler  (numerical features)
+    │
+    ▼
+Classifier
+    │
+    ▼
+Prediction (Approved / Rejected)
+```
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Python 3.10 or higher
+- pip
+
+### Installation
 
 ```bash
+# 1. Clone the repository
 git clone https://github.com/Muhammad-Musharraf/Loan-Approved-Prediction-ML-Project.git
-```
-
-### Navigate to Project
-
-```bash
 cd Loan-Approved-Prediction-ML-Project
-```
 
-### Install Dependencies
+# 2. Create and activate a virtual environment (recommended)
+python -m venv venv
+source venv/bin/activate        # macOS/Linux
+venv\Scripts\activate           # Windows
 
-```bash
+# 3. Install dependencies
 pip install -r requirements.txt
+
+# 4. Run the Streamlit app
+streamlit run Streamlit/loan.py
 ```
 
-### Run Notebook
+The app will open at `http://localhost:8501` in your browser.
 
-```bash
-jupyter notebook
+---
+
+## 🖥 Usage
+
+1. Open the live app or run it locally.
+2. Fill in the applicant details in the sidebar or form (income, loan amount, credit history, etc.).
+3. Click **Predict**.
+4. The model instantly returns whether the loan would be **Approved ✅** or **Rejected ❌**.
+
+---
+
+## 📈 Results
+
+The model was evaluated on a held-out test set using standard classification metrics:
+
+| Metric | Score |
+|---|---|
+| Accuracy | — |
+| Precision | — |
+| Recall | — |
+| F1-Score | — |
+
+> 📝 See the full evaluation in [`notebooks/loan_prediction.ipynb`](notebooks/)
+
+---
+
+## 🐛 Troubleshooting
+
+### `AttributeError: module 'sklearn.compose._column_transformer' has no attribute '_RemainderColsList'`
+
+This happens when the model was saved with **scikit-learn 1.6.1** but the runtime has a newer version.
+
+**Fix:** Pin the scikit-learn version in `requirements.txt`:
+
+```
+scikit-learn==1.6.1
 ```
 
----
-
-## 📷 Project Screenshots
-
-Add screenshots of:
-
-- Dataset Overview
-- Data Visualization
-- Model Performance
-- Prediction Results
+Then redeploy. See [scikit-learn model persistence docs](https://scikit-learn.org/stable/model_persistence.html) for more details.
 
 ---
 
-## 🔮 Future Improvements
+## 🤝 Contributing
 
-- Hyperparameter tuning
-- Model deployment with Streamlit
-- Explainable AI (SHAP)
-- Real-time prediction API using FastAPI
+Contributions are welcome! To get started:
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/your-feature`
+3. Commit your changes: `git commit -m "Add your feature"`
+4. Push to the branch: `git push origin feature/your-feature`
+5. Open a Pull Request
 
 ---
 
-## 👨‍💻 Author
+## 📄 License
+
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 👤 Author
 
 **Muhammad Musharraf**
-
-- GitHub: https://github.com/Muhammad-Musharraf
-- LinkedIn: https://www.linkedin.com/in/muhammad-musharraf-437424327/
+- GitHub: [@Muhammad-Musharraf](https://github.com/Muhammad-Musharraf)
+- Dataset: [Kaggle Profile](https://www.kaggle.com/muhammadmusharraf444)
 
 ---
 
+<p align="center">
+  Made with ❤️ using Python & Streamlit
+</p>
+---
 ## ⭐ Support
 
 If you found this project useful, consider giving it a ⭐ on GitHub.
