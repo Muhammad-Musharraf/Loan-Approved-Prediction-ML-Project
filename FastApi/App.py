@@ -1,29 +1,53 @@
 from fastapi import FastAPI
-from pydantic import BaseModel, Field
 from fastapi.responses import JSONResponse
-from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel, Field
 from typing import Literal, Annotated
+from datetime import datetime
 import pandas as pd
 import pickle
 import os
-from datetime import datetime
 
-# ── Paths ─────────────────────────────────────────────────────────────────────
-BASE_DIR   = os.path.dirname(os.path.abspath(__file__))
-ROOT_DIR   = os.path.dirname(BASE_DIR)
-MODEL_PATH = os.path.join(ROOT_DIR, "Model", "pipe.pkl")
+# ── Model Loading ──────────────────────────────────────────────────────────────
+# In Lambda, your model file must be bundled in the deployment package or
+# fetched from S3. Set MODEL_PATH via an environment variable for flexibility.
+#
+# Option A (bundled): place pipe.pkl alongside handler.py in the zip/layer.
+# Option B (S3):      download to /tmp on cold start (see _load_model below).
 
-with open(MODEL_PATH, "rb") as f:
-    model = pickle.load(f)
+MODEL_PATH = os.environ.get("MODEL_PATH", os.path.join(os.path.dirname(__file__), "pipe.pkl"))
 
-app = FastAPI()
+def _load_model():
+    """Load model from local path or S3 (cached in /tmp across warm invocations)."""
+    local = "/tmp/pipe.pkl"
 
+    # ── S3 path (uncomment + set MODEL_S3_URI env var if using S3) ────────────
+    # import boto3, urllib.parse
+    # s3_uri = os.environ.get("MODEL_S3_URI")   # e.g. s3://my-bucket/models/pipe.pkl
+    # if s3_uri and not os.path.exists(local):
+    #     parsed = urllib.parse.urlparse(s3_uri)
+    #     boto3.client("s3").download_file(parsed.netloc, parsed.path.lstrip("/"), local)
+    #     path = local
+    # else:
+    #     path = MODEL_PATH if os.path.exists(MODEL_PATH) else local
 
+    path = MODEL_PATH
+    with open(path, "rb") as f:
+        return pickle.load(f)
+
+# Module-level: loaded once per container (warm Lambda reuse)
+model = _load_model()
 
 LOAN_STATUS_MAP = {1: "Approved", 0: "Rejected"}
 
+# ── App ────────────────────────────────────────────────────────────────────────
+app = FastAPI(
+    title="LoanSense AI",
+    description="Serverless loan approval prediction API",
+    version="1.0.0",
+)
 
-# ── Schema ────────────────────────────────────────────────────────────────────
+
+# ── Schema ─────────────────────────────────────────────────────────────────────
 class UserData(BaseModel):
     age:                 Annotated[int,   Field(..., gt=0)]
     gender:              Annotated[Literal["male", "female"], Field(...)]
@@ -79,8 +103,10 @@ def predict(user: UserData):
         raw   = int(model.predict(input_df)[0])
         label = LOAN_STATUS_MAP[raw]
         return JSONResponse(status_code=200, content={"loan_status": label})
-
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})
+
+
+
 
 
