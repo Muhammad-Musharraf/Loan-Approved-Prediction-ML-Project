@@ -2,6 +2,7 @@ import streamlit as st
 import pickle
 import numpy as np
 import pandas as pd
+from pathlib import Path
 
 # ── Page config ───────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -11,12 +12,17 @@ st.set_page_config(
 )
 
 # ── Load model ────────────────────────────────────────────────────────────────
+BASE_DIR = Path(__file__).resolve().parent.parent
+MODEL_PATH = BASE_DIR / "Model" / "pipe.pkl"
+
 @st.cache_resource
 def load_model():
-    with open("Model/pipe.pkl", "rb") as f:
+    with open(MODEL_PATH, "rb") as f:
         return pickle.load(f)
 
 pipe = load_model()
+
+
 
 # ── Styling ───────────────────────────────────────────────────────────────────
 st.markdown("""
